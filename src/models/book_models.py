@@ -2,12 +2,13 @@ from sqlalchemy import Column, UUID, String, Integer
 from sqlalchemy.orm import relationship
 
 from src.utils.db_utils import Base
-from src.models import TimestampMixin
+from src.models.TimestampMixin import TimestampMixin
+import uuid
 
 class BookModel(Base, TimestampMixin):
     __tablename__ = "books"
 
-    id: Column = Column(UUID, primary_key=True)
+    id: Column = Column(UUID, primary_key=True, default=uuid.uuid4)
     ISBN: Column = Column(String)
     book_title: Column = Column(String, nullable=False)
     book_author: Column = Column(String)
