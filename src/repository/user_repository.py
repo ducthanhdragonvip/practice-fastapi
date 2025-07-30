@@ -11,3 +11,4 @@ class UserRepository(BaseRepository[UserModel, UserCreateDTO, UserUpdateDTO]):
         logger.debug("UserRepository initialized")
 
 
+user_repository = UserRepository()
