@@ -1,6 +1,8 @@
+from typing import Any
+
 from src.models.book_models import BookModel
 from src.dto.book_dto import BookUpdateDTO, BookCreateDTO
-from src.repository.base_repository import BaseRepository
+from src.repository.base_repository import BaseRepository, ModelType
 
 import logging
 

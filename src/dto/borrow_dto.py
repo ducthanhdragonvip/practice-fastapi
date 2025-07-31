@@ -8,7 +8,7 @@ from uuid import UUID
 class BorrowingCreateDTO(BaseModel):
     book_id: UUID
     user_id: UUID
-    borrow_date: datetime
+    borrow_date: Optional[datetime] = None
     due_date: datetime
 
 class BorrowingUpdateDTO(BaseModel):
