@@ -4,13 +4,40 @@ services:
     image: postgres:latest
     restart: always
     env_file:
-      - .env
+      - .env.development
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  db-init:
+    build: .
+    command: python cli.py init_database
+    env_file:
+      - .env.development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend:
+    build: .
+    env_file:
+      - .env.development
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+
 volumes:
   postgres_data:
 
